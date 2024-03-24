@@ -1,0 +1,41 @@
+.receipt {
+    width: 100%;
+    border-collapse: separate; /* Use separate border model */
+    border-spacing: 0; /* Remove spacing between cells */
+    border-radius: 1px; /* Apply border radius */
+    overflow: hidden; /* Ensure rounded corners are visible */
+
+}
+.receipt th, .receipt td {
+    border: 1px solid #000;
+    padding: 3px;
+}
+.receipt th {
+    background-color: #a39393;
+}
+.total {
+    text-align: right;
+    margin-top: 20px;
+}
+.company-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.company-logo {
+    max-width: 150px; /* تحديد عرض أقصى للشعار */
+    margin-bottom: 10px;
+}
+.barcode {
+    text-align: center;
+    margin-top: 20px;
+}
+.delivery-icon {
+    color: green; /* لون الرمز */
+    font-size: 24px; /* حجم الرمز */
+}
+.right-to-left {
+    text-align: right; /* تمرير النص من اليمين إلى الشمال */
+}
+.left-to-right {
+    text-align: left; /* تمرير النص من اليسار إلى اليمين */
+}

@@ -1,0 +1,113 @@
+{% load custom_filters %}
+
+{% load static %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيصال</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/Receipt.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+
+    <style>
+              
+    @font-face {
+    font-family: 'PNU';
+    src: url('{% static "fonts/PNU-Medium.ttf" %}') format('truetype');
+}
+        @page {
+            size: 8.27in 11.69in; /* حجم الورقة A4 */
+            margin: 0;
+        }
+        body {
+            font-family:'PNU' ,'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* استخدم الخطوط العربية الحديثة */
+            margin: 0.2in 0.4in; /* هوامش الصفحة */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- معلومات الشركة والشعار -->
+    <div class="company-info">
+        <h1>الـهنـدســة</h1>
+        <img src="{% static 'img/logo.jpeg' %}" alt="شعار الشركة" class="company-logo">
+        <h3>انت يا بيه يا اللي اسمك انيس ابعت اللوجو</h3>
+    </div>
+    
+    <!-- جدول الإيصال -->
+    <table class="receipt">
+        <thead>
+            <tr>
+                <th class="right-to-left">السعر الإجمالي</th>
+                <th class="right-to-left">سعر البيع </th>
+                <th>تم التسليم</th>
+                <th class="right-to-left">الكمية</th>
+                <th>الاسم</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- البيانات العينية -->
+            {% for e in elements %}
+
+            <tr>
+               
+                <td class="right-to-left">{{ e.selling_price | mul:e.quantity }} ج.م.</td>
+                <td class="right-to-left">{{e.selling_price}} ج.م.</td>
+                <td>
+                    {% if e.Delivered %}
+                    <i class="fas fa-check delivery-icon"></i>
+                    {% else %}
+                    {% endif %}
+
+
+                </td>
+                <td class="right-to-left">{{e.quantity}}</td>
+                <td>{{e.item.category}}</td>
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    <!-- الباركود -->
+    <div class="barcode">
+        <svg alt="باركود" id="barcode-container" width="200"></svg>
+        <p>رقم الفاتورة: {{id}}</p>
+        <h2>سعداء بخدمتكم <br> ونتطلع إلى رؤيتكم مجددًا<br>
+             نتمنى لكم يومًا مشرقًا ورؤية واضحة 
+
+
+        </h2>
+    </div>
+
+    <!-- السعر الإجمالي -->
+    <div class="total">
+        <h2>السعر الإجمالي للإيصال: {{total}} ج.م.</h2>
+        <h2>المودفوع {{paid}} ج.م.</h2>
+        <h2>الباقي للتحصيل {{total|sub:paid}} ج.م.</h2>
+    </div>
+    <script>
+        // Function to generate the barcode
+        function generateBarcode(barcodeValue) {
+            // Clear any existing barcode in the container
+            document.getElementById('barcode-container').innerHTML = '';
+
+            // Generate the barcode and append it to the container
+            JsBarcode("#barcode-container", barcodeValue, {
+                format: "CODE128", // Barcode format (EAN-13 in this example)
+                displayValue: false, // Show the human-readable value below the barcode
+                
+            });
+        }
+
+        // Call the generateBarcode function with a sample barcode value
+        generateBarcode("{{id}}");
+    </script><style>#barcode-container text  {
+    font-family: 'PNU', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Add any other font styles as needed */
+}</style>
+</body>
+</html>

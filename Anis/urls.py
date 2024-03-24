@@ -15,11 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
+from sales.views import *
 admin.site.site_header="الهندســــــة"
 admin.site.site_title='الهندســــــة'
 admin.site.index_title='الإدارة'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+
+    path('', admin.site.urls),
+    path('receipt/<int:id>/', get_receipt, name='Receipt'),
+
+    path('get_item/<int:id>/', get_item_data, name='ajax_get_item_data')
+    ]

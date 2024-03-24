@@ -6,6 +6,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('category', 'purchase_price', 'purchase_date', 'quantity', 'selling_price')
+    list_display = ('id','category', 'purchase_price', 'purchase_date', 'quantity', 'selling_price')
     list_filter = ('category', 'purchase_date')
 
